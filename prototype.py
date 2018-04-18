@@ -5,6 +5,8 @@ import time
 import argparse
 import multiprocessing
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from PIL import Image
 
@@ -32,9 +34,12 @@ def detect_objects(image_np, sess, detection_graph, category_index):
     (boxes, scores, classes, num_detections) = sess.run(
         [boxes, scores, classes, num_detections],
         feed_dict={image_tensor: image_np_expanded})
-    # print('detected objects:')
-    # for classe in classes:
-    #     print(classe)
+
+    print('detected objects:')
+    for classe in classes:
+        print(classe)
+    for score in scores:
+        print(score)
 
     # Visualization of the results of a detection.
     vis_util.visualize_boxes_and_labels_on_image_array(
@@ -44,7 +49,7 @@ def detect_objects(image_np, sess, detection_graph, category_index):
         np.squeeze(scores),
         category_index,
         use_normalized_coordinates=True,
-        line_thickness=6)
+        line_thickness=8)
     return image_np
 
 def load_image_into_numpy_array(image):
@@ -114,8 +119,14 @@ def object_detection_for_upload(filename):
             image_np = load_image_into_numpy_array(image)
             image_process = detect_objects(image_np, sess, detection_graph, category_index)
             plt.figure(figsize=IMAGE_SIZE)
-            plt.savefig(os.path.join('static', 'uploads', 'rendered', filename), bbox_inches='tight')
-            print(os.path.join('static', 'uploads', 'rendered', filename))
+            newpath = os.path.join('static', 'uploads', 'rendered', filename)
+            # newpath = newpath + '.png'
+            # print(newpath)
+            plt.savefig(newpath)
+            plt.imshow(image_process)
+
+object_detection_for_upload('P1030345.jpg')
+
 
 # ### TODO
 # # Import everything needed to edit/save/watch video clips
