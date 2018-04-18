@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  <form class="" id="form" action="/" method="post" enctype="multipart/form-data">
+    <input type="file" name="upload_img" value="">
+    <button type="submit" name="button">Upload image</button>
+  </form>
+
+  <div class="progress">
+    <div class="progress-bar">0%</div>
+  </div>
+
+  <div id="status"></div>
+
+  <script>
+      (function () {
+          var bar = $('.progress-bar');
+          var percent = $('.progress-bar');
+          var status = $('#status');
+
+          $('#form').ajaxForm({
+              beforeSend: function () {
+                  status.empty();
+                  status.html("Please Wait While We Upload Your File(s)");
+                  var percentValue = '0%';
+                  bar.width(percentValue);
+                  percent.html(percentValue);
+              },
+              uploadProgress: function (event, position, total, percentComplete) {
+                  var percentValue = percentComplete + '%';
+                  bar.width(percentValue);
+                  percent.html(percentValue);
+              },
+              success: function (d) {
+                  var percentValue = '100%';
+                  bar.width(percentValue);
+                  percent.html(percentValue);
+                  $('#fu1').val('');
+                  status.empty();
+                  alert(d);
+              },
+              complete: function (xhr) {
+                  status.html("You can Upload again or close this page.");
+              }
+          });
+      })();
+  </script>
+
+{% endblock %}

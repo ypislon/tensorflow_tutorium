@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+  <p>Success!</p>
+  <p>{{ filepath }}</p>
+
+  <img src="{{  url_for('static', filename=('uploads/rendered/' + filename)) }}" alt="" style="max-width: 100%;">
+
+{% endblock %}
