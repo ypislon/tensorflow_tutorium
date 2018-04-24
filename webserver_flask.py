@@ -39,6 +39,10 @@ def index():
     # Handling get method and every other method
     return render_template('index.html')
 
+@app.route('/index')
+def start():
+    return render_template('index.html')
+
 @app.route('/impressum')
 def impressum():
     return "Impressum"
