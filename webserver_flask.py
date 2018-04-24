@@ -15,7 +15,7 @@ app.config['MAX_CONTENT_LENGTH'] = 8 * 1024 * 1024
 app.secret_key = "super secret secret key 123"
 
 # configure routes
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/tt', methods=['GET', 'POST'])
 def index():
     # Handling post method
     if request.method == 'POST':

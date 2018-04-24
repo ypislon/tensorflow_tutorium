@@ -87,10 +87,10 @@ def object_detection_for_upload(filename):
     #     TEST_IMAGE_PATHS[image] = TEST_IMAGE_PATHS[image].replace("\\", "/")
 
     # for image_path in TEST_IMAGE_PATHS:
-    image = Image.open('static/uploads/image2.jpg')
-    image_np = load_image_into_numpy_array(image)
-    plt.imshow(image_np)
-    print(image.size, image_np.shape)
+    #image = Image.open('static/uploads/image2.jpg')
+    #image_np = load_image_into_numpy_array(image)
+    #plt.imshow(image_np)
+    #print(image.size, image_np.shape)
     #
     # Size, in inches, of the output images.
     # TODO parse this by input file!
