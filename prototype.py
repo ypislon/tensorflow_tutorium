@@ -126,7 +126,7 @@ def object_detection_for_upload(filename):
             plt.savefig(newpath)
             plt.imshow(image_process)
 
-object_detection_for_upload('image2.jpg')
+# object_detection_for_upload('image2.jpg')
 
 # ### TODO
 # # Import everything needed to edit/save/watch video clips
