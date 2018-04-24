@@ -123,8 +123,8 @@ def object_detection_for_upload(filename):
             newpath = os.path.join('static', 'uploads', 'rendered', filename)
             # newpath = newpath + '.png'
             # print(newpath)
-            plt.savefig(newpath)
             plt.imshow(image_process)
+            plt.savefig(newpath, format="png")
 
 # object_detection_for_upload('image2.jpg')
 
