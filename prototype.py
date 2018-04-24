@@ -87,18 +87,19 @@ def object_detection_for_upload(filename):
     #     TEST_IMAGE_PATHS[image] = TEST_IMAGE_PATHS[image].replace("\\", "/")
 
     # for image_path in TEST_IMAGE_PATHS:
-    # image_np = load_image_into_numpy_array(image)
-    # plt.imshow(image_np)
-    # print(image.size, image_np.shape)
+    image = Image.open('static/uploads/image2.jpg')
+    image_np = load_image_into_numpy_array(image)
+    plt.imshow(image_np)
+    print(image.size, image_np.shape)
     #
     # Size, in inches, of the output images.
     # TODO parse this by input file!
-    # IMAGE_SIZE = (24, 16)
-    image = Image.open(filepath)
-    image_w = round(image.width / 48, 2)
-    image_h = round(image.height / 48, 2)
-    IMAGE_SIZE = (image_w, image_h)
-    print(IMAGE_SIZE)
+    IMAGE_SIZE = (12, 8)
+    # image = Image.open(filepath)
+    # image_w = round(image.width / 48, 2)
+    # image_h = round(image.height / 48, 2)
+    # IMAGE_SIZE = (image_w, image_h)
+    # print(IMAGE_SIZE)
 
     # Load a frozen TF model
     # TODO: get better model
@@ -125,8 +126,7 @@ def object_detection_for_upload(filename):
             plt.savefig(newpath)
             plt.imshow(image_process)
 
-object_detection_for_upload('P1030345.jpg')
-
+object_detection_for_upload('image2.jpg')
 
 # ### TODO
 # # Import everything needed to edit/save/watch video clips
