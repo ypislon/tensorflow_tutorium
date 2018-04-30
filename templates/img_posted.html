@@ -2,9 +2,30 @@
 
 {% block body %}
 
-  <p>Success!</p>
-  <p>{{ filepath }}</p>
+<div class="col-sm-12 col-md-6">
+  <img src="{{ url_for('static', filename=('uploads/rendered/' + filename)) }}" alt="" style="max-width: 100%;">
+</div>
 
-  <img src="{{  url_for('static', filename=('uploads/rendered/' + filename)) }}" alt="" style="max-width: 100%;">
+<div class="col-sm-12 col-md-6">
+  {% if detected_objects|length == 0 %}
+    Didn't find anything. But hey - just <a href="/tt">try again</a> with another image!
+  {% endif %}
+
+  {% if detected_objects|length == 1 %}
+    I found a thing! It seem's to be a {{object}} with {{score}}.
+  {% endif %}
+
+  {% if detected_objects|length > 1 %}
+    {% for score, object in detected_objects %}
+      {% if(loop.index0 == 0) %}
+        I found {{detected_objects|length}} things! First of all, a {{ object }}.
+      {% elif(loop.index0 == 1) %}
+        Also, a {{object}} (at least I'm {{ score|round(4) * 100}} % sure).
+      {% else %}
+        And a {{object}} (at least I'm {{ score|round(4) * 100}} % sure).
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+<div class="col-sm-12 col-md-6">
 
 {% endblock %}

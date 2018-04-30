@@ -34,12 +34,102 @@ def detect_objects(image_np, sess, detection_graph, category_index):
     (boxes, scores, classes, num_detections) = sess.run(
         [boxes, scores, classes, num_detections],
         feed_dict={image_tensor: image_np_expanded})
+    #
+    # print('detected objects:')
+    # for classe in classes:
+    #     print(classe)
+    # for score in scores:
+    #     print(score)
 
-    print('detected objects:')
-    for classe in classes:
-        print(classe)
-    for score in scores:
-        print(score)
+    # Which objects were found?
+
+    dict_label_map = {
+        1: "person",
+        2: "bicycle",
+        3: "car",
+        4: "motorcycle",
+        5: "airplane",
+        6: "bus",
+        7: "train",
+        8: "truck",
+        9: "boat",
+        10: "traffic light",
+        11: "fire hydrant",
+        13: "stop sign",
+        14: "parking meter",
+        15: "bench",
+        16: "bird",
+        17: "cat",
+        18: "dog",
+        19: "horse",
+        20: "sheep",
+        21: "cow",
+        22: "elephant",
+        23: "bear",
+        24: "zebra",
+        25: "giraffe",
+        27: "backpack",
+        28: "umbrella",
+        31: "handbag",
+        32: "tie",
+        33: "suitcase",
+        34: "frisbee",
+        35: "skis",
+        36: "snowboard",
+        37: "sports ball",
+        38: "kite",
+        40: "baseball bat",
+        41: "skateboard",
+        42: "surfboard",
+        43: "tennis racket",
+        44: "bottle",
+        46: "wine glass",
+        47: "cup",
+        48: "fork",
+        49: "knife",
+        50: "spoon",
+        51: "bowl",
+        52: "banana",
+        53: "apple",
+        54: "sandwich",
+        55: "orange",
+        56: "broccoli",
+        57: "carrot",
+        58: "hot dog",
+        59: "pizza",
+        60: "donut",
+        61: "cake",
+        62: "chair",
+        63: "couch",
+        64: "potted plant",
+        65: "bed",
+        67: "dining table",
+        70: "toilet",
+        72: "tv",
+        74: "mouse",
+        75: "remote",
+        76: "keyboard",
+        77: "cell phone",
+        78: "microwave",
+        79: "oven",
+        80: "toaster",
+        81: "sind",
+        82: "refrigerator",
+        84: "book",
+        85: "clock",
+        86: "vase",
+        87: "scissors",
+        88: "teddy bear",
+        89: "hair drier",
+        90: "toothbrush" }
+
+    dict_detected_objects = list()
+
+    list_sc_cl = list(zip(scores[0], classes[0]))
+
+    for i, (score, classe) in enumerate(list_sc_cl):
+        if score > 0.5:
+            dict_detected_objects.append({score, dict_label_map[classe]})
 
     # Visualization of the results of a detection.
     vis_util.visualize_boxes_and_labels_on_image_array(
@@ -49,8 +139,8 @@ def detect_objects(image_np, sess, detection_graph, category_index):
         np.squeeze(scores),
         category_index,
         use_normalized_coordinates=True,
-        line_thickness=8)
-    return image_np
+        line_thickness=5)
+    return image_np, dict_detected_objects
 
 def load_image_into_numpy_array(image):
   (im_width, im_height) = image.size
@@ -94,11 +184,11 @@ def object_detection_for_upload(filename):
     #
     # Size, in inches, of the output images.
     # TODO parse this by input file!
-    IMAGE_SIZE = (12, 8)
-    # image = Image.open(filepath)
-    # image_w = round(image.width / 48, 2)
-    # image_h = round(image.height / 48, 2)
-    # IMAGE_SIZE = (image_w, image_h)
+    # IMAGE_SIZE = (12, 8)
+    image = Image.open(filepath)
+    image_w = round(image.width / 48, 2)
+    image_h = round(image.height / 48, 2)
+    IMAGE_SIZE = (image_w, image_h)
     # print(IMAGE_SIZE)
 
     # Load a frozen TF model
@@ -118,13 +208,13 @@ def object_detection_for_upload(filename):
             # for image_path in TEST_IMAGE_PATHS:
             image = Image.open(filepath)
             image_np = load_image_into_numpy_array(image)
-            image_process = detect_objects(image_np, sess, detection_graph, category_index)
+            image_process, detected_objects = detect_objects(image_np, sess, detection_graph, category_index)
             plt.figure(figsize=IMAGE_SIZE)
             newpath = os.path.join('static', 'uploads', 'rendered', filename)
-            # newpath = newpath + '.png'
-            # print(newpath)
             plt.imshow(image_process)
             plt.savefig(newpath, format="png")
+
+    return detected_objects
 
 # object_detection_for_upload('image2.jpg')
 

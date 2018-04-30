@@ -34,14 +34,19 @@ def index():
             filename = secure_filename(img.filename)
             img.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            prototype.object_detection_for_upload(filename)
-            return render_template('img_posted.html', filename=filename)
+            detected_objects = prototype.object_detection_for_upload(filename)
+            return render_template('img_posted.html', filename=filename, detected_objects=detected_objects)
     # Handling get method and every other method
     return render_template('index.html')
 
-@app.route('/index')
+##
+@app.route('/')
 def start():
     return render_template('index.html')
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 @app.route('/impressum')
 def impressum():
