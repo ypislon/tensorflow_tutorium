@@ -148,7 +148,7 @@ def load_image_into_numpy_array(image):
       (im_height, im_width, 3)).astype(np.uint8)
 
 ## this is the upload function used in the webapp
-def object_detection_for_upload(filename):
+def object_detection_for_upload(filename, graph_loaded):
     ### setup
     CWD_PATH = os.getcwd()
     filepath = os.path.join('static', 'uploads', filename)
@@ -196,12 +196,14 @@ def object_detection_for_upload(filename):
     # !!!
     detection_graph = tf.Graph()
 
-    with detection_graph.as_default():
-        od_graph_def = tf.GraphDef()
-        with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
-            serialized_graph = fid.read()
-            od_graph_def.ParseFromString(serialized_graph)
-            tf.import_graph_def(od_graph_def, name='')
+    # with detection_graph.as_default():
+    #     od_graph_def = tf.GraphDef()
+    #     with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
+    #         serialized_graph = fid.read()
+    #         od_graph_def.ParseFromString(serialized_graph)
+    #         tf.import_graph_def(od_graph_def, name='')
+
+    detection_graph = graph_loaded
 
     with detection_graph.as_default():
         with tf.Session(graph=detection_graph) as sess:
@@ -215,6 +217,37 @@ def object_detection_for_upload(filename):
             plt.savefig(newpath, format="png")
 
     return detected_objects
+
+def load_graph(trained_model):
+    with tf.gfile.GFile(trained_model, "rb") as f:
+        graph_def = tf.GraphDef()
+        graph_def.ParseFromString(f.read())
+
+    with tf.Graph().as_default() as graph:
+        tf.import_graph_def(
+            graph_def,
+            name=""
+            )
+    return graph
+
+    # with detection_graph.as_default():
+    #     od_graph_def = tf.GraphDef()
+    #     with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
+    #         serialized_graph = fid.read()
+    #         od_graph_def.ParseFromString(serialized_graph)
+    #         tf.import_graph_def(od_graph_def, name='')
+    #
+    # with detection_graph.as_default():
+    #     with tf.Session(graph=detection_graph) as sess:
+    #         # for image_path in TEST_IMAGE_PATHS:
+    #         image = Image.open(filepath)
+    #         image_np = load_image_into_numpy_array(image)
+    #         image_process, detected_objects = detect_objects(image_np, sess, detection_graph, category_index)
+    #         plt.figure(figsize=IMAGE_SIZE)
+    #         newpath = os.path.join('static', 'uploads', 'rendered', filename)
+    #         plt.imshow(image_process)
+    #         plt.savefig(newpath, format="png")
+
 
 # object_detection_for_upload('image2.jpg')
 

@@ -34,7 +34,9 @@ def index():
             filename = secure_filename(img.filename)
             img.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            detected_objects = prototype.object_detection_for_upload(filename)
+            print('render image')
+            detected_objects = prototype.object_detection_for_upload(filename, app.graph)
+            print('rendered image')
             return render_template('img_posted.html', filename=filename, detected_objects=detected_objects)
     # Handling get method and every other method
     return render_template('index.html')
@@ -56,6 +58,14 @@ def impressum():
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+# Path to frozen detection graph. This is the actual model that is used for the object detection.
+CWD_PATH = os.getcwd()
+MODEL_NAME = 'ssd_mobilenet_v1_coco_11_06_2017'
+PATH_TO_CKPT = os.path.join(CWD_PATH, 'models', 'research', 'object_detection', MODEL_NAME, 'frozen_inference_graph.pb')
+
+app.graph = prototype.load_graph(PATH_TO_CKPT)
 
 if __name__ == '__main__':
     app.run(debug=True)
