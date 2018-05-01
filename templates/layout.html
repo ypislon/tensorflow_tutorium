@@ -39,11 +39,14 @@
 
               <h1 class="display-4 start-h1">Objekterkennung mit Machine Learning</h1>
               <br>
+              <p>
               {% if request.path == '/tt' or request.path == '/' %}
-                <p><a class="btn btn-primary btn-lg start-cta" href="{{url_for('index')}}#upload_form" role="button">Probiers aus!</a></p>
+                <a class="btn btn-primary btn-lg start-cta" href="{{url_for('index')}}#upload_form" role="button">Probiers aus!</a>
               {% else %}
-                <p><a class="btn btn-primary btn-lg start-cta" href="{{url_for('index')}}#upload_form" role="button">Zurück zur Startseite</a></p>
+                <a class="btn btn-primary btn-lg start-cta" href="{{url_for('index')}}#upload_form" role="button">Zurück zur Startseite</a>
               {% endif %}
+                <a class="btn btn-secondary btn-lg start-cta" href="{{ url_for('about')}}" role="button">Infos über das Projekt</a>
+              </p>
 
             </div>
           </div>

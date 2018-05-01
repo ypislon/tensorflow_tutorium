@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, redirect, url_for, flash, render_template
+from flask import Flask, request, redirect, url_for, flash, render_template, make_response
 from werkzeug.utils import secure_filename
 import datetime
 
@@ -44,12 +44,13 @@ def post_image():
             filename = secure_filename(img.filename)
             img.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            print('render image')
-            print(datetime.datetime.now().time())
             detected_objects = prototype.object_detection_for_upload(filename, app.graph)
-            print('rendered image')
-            print(datetime.datetime.now().time())
-            return render_template('img_posted.html', filename=filename, detected_objects=detected_objects)
+
+            resp = make_response(render_template('img_posted.html', filename=filename, detected_objects=detected_objects))
+            resp.headers.set('Connection', 'keep-alive')
+            resp.headers.set('Keep-Alive', 'timeout=60, max=10')
+
+            return resp
 
 
 @app.route('/')
