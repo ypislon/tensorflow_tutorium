@@ -2,16 +2,65 @@
 
 {% block body %}
 
-  <form class="" id="form" action="/tt" method="post" enctype="multipart/form-data">
-    <input type="file" name="upload_img" value="">
-    <button type="submit" name="button">Upload image</button>
-  </form>
+  <div class="row">
+    <div class="col-sm-12 col-md-6">
+      <form class="" id="upload_form" action="/upload-image" method="post" enctype="multipart/form-data">
 
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">Upload (nur Bilder)</span>
+          </div>
+
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" name="upload_img" id="inputGroupFile01">
+            <label class="custom-file-label text-truncate" for="inputGroupFile01">Datei auswählen</label>
+          </div>
+        </div>
+
+        <div class="input-group mb-3">
+          <button type="submit" name="button" class="btn btn-primary">Bild hochladen</button>
+        </div>
+      </form>
+
+    </div>
+
+    <div class="col-sm-12 col-md-4">
+      <div class="status-message hide-stuff">
+        <p><kbd class="robot-text">Ich verarbeite dein Bild...</kbd></p>
+        <p><small>Seite bitte nicht neu laden.</small></p>
+      </div>
+
+      <!-- render flash messages if available -->
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p> <kbd class="robot-text">{{ message }}</kbd></p>
+        {% endfor %}
+      {% endif %}
+      {% endwith %}
+    </div>
+
+    <div class="col-sm-12 col-md-2 justify-content-end align-self-end">
+
+      <div class="welcome-robot-div robot">
+          <img src="{{ url_for('static', filename='assets/images/robot-listening.png') }}" alt="" class="welcome-robot">
+        <!-- <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p> -->
+      </div>
+
+      <div class="waiting-robot-div robot">
+          <img src="{{ url_for('static', filename='assets/images/robot-angry.png') }}" alt="" class="waiting-robot">
+      </div>
+    </div>
+  </div>
+
+
+
+<!--
   <div class="progress">
     <div class="progress-bar">0%</div>
   </div>
+-->
 
-  <div id="status"></div>
 
   <!-- <script>
       (function () {

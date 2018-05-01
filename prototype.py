@@ -168,40 +168,10 @@ def object_detection_for_upload(filename, graph_loaded):
 
     category_index = label_map_util.create_category_index(categories)
 
-    ## First test on images
-    # TODO: remove, since no test are needed
-    # PATH_TO_TEST_IMAGES_DIR = os.path.join(CWD_PATH, 'models', 'research', 'object_detection', 'test_images')
-    # TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'image{}.jpg'.format(i)) for i in range(1, 3) ]
-    #
-    # for image in range(0, len(TEST_IMAGE_PATHS)):
-    #     TEST_IMAGE_PATHS[image] = TEST_IMAGE_PATHS[image].replace("\\", "/")
-
-    # for image_path in TEST_IMAGE_PATHS:
-    #image = Image.open('static/uploads/image2.jpg')
-    #image_np = load_image_into_numpy_array(image)
-    #plt.imshow(image_np)
-    #print(image.size, image_np.shape)
-    #
-    # Size, in inches, of the output images.
-    # TODO parse this by input file!
-    # IMAGE_SIZE = (12, 8)
     image = Image.open(filepath)
     image_w = round(image.width / 48, 2)
     image_h = round(image.height / 48, 2)
     IMAGE_SIZE = (image_w, image_h)
-    # print(IMAGE_SIZE)
-
-    # Load a frozen TF model
-    # TODO: get better model
-    # !!!
-    detection_graph = tf.Graph()
-
-    # with detection_graph.as_default():
-    #     od_graph_def = tf.GraphDef()
-    #     with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
-    #         serialized_graph = fid.read()
-    #         od_graph_def.ParseFromString(serialized_graph)
-    #         tf.import_graph_def(od_graph_def, name='')
 
     detection_graph = graph_loaded
 
@@ -214,11 +184,13 @@ def object_detection_for_upload(filename, graph_loaded):
             plt.figure(figsize=IMAGE_SIZE)
             newpath = os.path.join('static', 'uploads', 'rendered', filename)
             plt.imshow(image_process)
-            plt.savefig(newpath, format="png")
+            plt.savefig(newpath, format="png", bbox_inches="tight")
 
     return detected_objects
 
 def load_graph(trained_model):
+    graph = tf.Graph()
+
     with tf.gfile.GFile(trained_model, "rb") as f:
         graph_def = tf.GraphDef()
         graph_def.ParseFromString(f.read())
@@ -229,29 +201,3 @@ def load_graph(trained_model):
             name=""
             )
     return graph
-
-    # with detection_graph.as_default():
-    #     od_graph_def = tf.GraphDef()
-    #     with tf.gfile.GFile(PATH_TO_CKPT, 'rb') as fid:
-    #         serialized_graph = fid.read()
-    #         od_graph_def.ParseFromString(serialized_graph)
-    #         tf.import_graph_def(od_graph_def, name='')
-    #
-    # with detection_graph.as_default():
-    #     with tf.Session(graph=detection_graph) as sess:
-    #         # for image_path in TEST_IMAGE_PATHS:
-    #         image = Image.open(filepath)
-    #         image_np = load_image_into_numpy_array(image)
-    #         image_process, detected_objects = detect_objects(image_np, sess, detection_graph, category_index)
-    #         plt.figure(figsize=IMAGE_SIZE)
-    #         newpath = os.path.join('static', 'uploads', 'rendered', filename)
-    #         plt.imshow(image_process)
-    #         plt.savefig(newpath, format="png")
-
-
-# object_detection_for_upload('image2.jpg')
-
-# ### TODO
-# # Import everything needed to edit/save/watch video clips
-# from moviepy.editor import VideoFileClip
-# from IPython.display import HTML

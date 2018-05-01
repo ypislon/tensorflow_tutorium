@@ -13,7 +13,6 @@
   </head>
   <body>
 
-    <a class="navbar-brand" href="#">Prototyp zur Objekterkennung mit Machine Learning</a>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -21,18 +20,12 @@
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="{{ url_for('index')}}">Home<span class="sr-only">(current)</span></a>
+          <li class="nav-item{% if request.path == '/tt' %} active{% endif %}">
+            <a class="nav-link" href="{{ url_for('index')}}">Startseite</span></a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item{% if request.path == '/about' %} active{% endif %}">
             <a class="nav-link" href="{{ url_for('about')}}">Über das Projekt</a>
           </li>
-          <!-- <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-            <div class="dropdown-menu" aria-labelledby="dropdown01">
-              <a class="dropdown-item" href="#">Action</a>
-            </div>
-          </li> -->
         </ul>
       </div>
     </nav>
@@ -41,18 +34,28 @@
 
       <div class="jumbotron">
         <div class="container">
-          <h1 class="display-3">Objekterkennung mit Machine Learning</h1>
-          <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-          <p><a class="btn btn-primary btn-lg" href="#upload" role="button">Probiers aus!</a></p>
+          <div class="row">
+            <div class="col-sm-12 col-md-6">
+
+              <h1 class="display-4 start-h1">Objekterkennung mit Machine Learning</h1>
+              <br>
+              {% if request.path == '/tt' or request.path == '/' %}
+                <p><a class="btn btn-primary btn-lg start-cta" href="{{url_for('index')}}#upload_form" role="button">Probiers aus!</a></p>
+              {% else %}
+                <p><a class="btn btn-primary btn-lg start-cta" href="{{url_for('index')}}#upload_form" role="button">Zurück zur Startseite</a></p>
+              {% endif %}
+
+            </div>
+          </div>
+
+
         </div>
       </div>
 
       <div class="container">
-        <div class="row">
             {% block body %} {% endblock %}
-        </div>
 
-        <hr>
+            <hr>
 
       </div> <!-- /container -->
 
@@ -62,16 +65,20 @@
       <p><a href="{{ url_for('impressum')}}">Impressum</a></p>
     </footer>
 
-    <!-- render flash messages if available -->
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-      <ul class="flashes">
-      {% for message in messages %}
-        <li class="{{type}}">{{ message }}</li>
-      {% endfor %}
-      </ul>
-    {% endif %}
-    {% endwith %}
+    <!-- modal for enlarging the rendered image -->
+    <div class="modal fade" id="image_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" style="max-width: 95%" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <!-- <h4 class="modal-title" id="myModalLabel"></h4> -->
+          </div>
+          <div class="modal-body d-flex justify-content-center">
+            <img src="" id="imagepreview">
+          </div>
+        </div>
+      </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.min.js" integrity="sha384-FzT3vTVGXqf7wRfy8k4BiyzvbNfeYjK+frTVqZeNDFl8woCbF0CYG6g2fMEFFo/i" crossorigin="anonymous"></script>

@@ -1,0 +1,55 @@
+img {
+  max-width: 100%;
+}
+
+#status {
+  display: none;
+}
+
+#status.show {
+  display: block;
+}
+
+.robot {
+  text-align: right;
+}
+
+.robot img {
+  height: 240px;
+  max-height: 60vh;
+}
+
+.welcome-robot-div {
+  text-align: right;
+}
+
+.welcome-robot {
+}
+
+.waiting-robot-div {
+  display: none;
+}
+
+#imageresource {
+  cursor: pointer;
+}
+
+#imagepreview {
+  max-height: 100vh;
+}
+
+.start-h1 {
+  margin-top: 40px;
+}
+
+.start-cta {
+  margin-top: 40px;
+}
+
+.hide-stuff {
+  display: none !important;
+}
+
+.show-stuff {
+  display: block;
+}
