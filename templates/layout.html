@@ -41,7 +41,7 @@
               <br>
               <p>
               {% if request.path == '/tt' or request.path == '/' %}
-                <a class="btn btn-primary btn-lg start-cta" href="{{url_for('index')}}#upload_form" role="button">Probiers aus!</a>
+                <a class="btn btn-primary btn-lg start-cta" href="{{url_for('index')}}#upload_form" id="try-button" role="button">Probiers aus!</a>
               {% else %}
                 <a class="btn btn-primary btn-lg start-cta" href="{{url_for('index')}}#upload_form" role="button">Zurück zur Startseite</a>
               {% endif %}

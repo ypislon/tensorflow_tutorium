@@ -8,6 +8,10 @@ $('#upload_form button[type="submit"]').on('click', function() {
   animatePoints();
 });
 
+$('#try-button').on('click', function() {
+  $('.custom-file-input').click();
+});
+
 var animatePoints = function() {
   if ($('.status-points').text() == "") {
     $('.status-points').text('.');
