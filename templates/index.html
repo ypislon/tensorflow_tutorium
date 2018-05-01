@@ -26,7 +26,7 @@
 
     <div class="col-sm-12 col-md-4">
       <div class="status-message hide-stuff">
-        <p><kbd class="robot-text">Ich verarbeite dein Bild...</kbd></p>
+        <p><kbd class="robot-text">Ich verarbeite dein Bild<span class="status-points">...</span></kbd></p>
         <p><small>Seite bitte nicht neu laden.</small></p>
       </div>
 
@@ -34,7 +34,7 @@
       {% with messages = get_flashed_messages() %}
       {% if messages %}
         {% for message in messages %}
-          <p> <kbd class="robot-text">{{ message }}</kbd></p>
+          <p class="flash-messages"> <kbd class="robot-text">{{ message }}</kbd></p>
         {% endfor %}
       {% endif %}
       {% endwith %}

@@ -4,7 +4,33 @@ $('#upload_form button[type="submit"]').on('click', function() {
   $('.welcome-robot-div').addClass('hide-stuff');
   $('.waiting-robot-div').addClass('show-stuff');
   $('.status-message').removeClass('hide-stuff');
+  $('.flash-messages').hide();
+  animatePoints();
 });
+
+var animatePoints = function() {
+  if ($('.status-points').text() == "") {
+    $('.status-points').text('.');
+    setTimeout(function() {
+      animatePoints();
+    }, 700);
+  } else if ($('.status-points').text() == ".") {
+    $('.status-points').text('..');
+    setTimeout(function() {
+      animatePoints();
+    }, 700);
+  } else if ($('.status-points').text() == "..") {
+    $('.status-points').text('...');
+    setTimeout(function() {
+      animatePoints();
+    }, 700);
+  } else if ($('.status-points').text() == "...") {
+    $('.status-points').text('');
+    setTimeout(function() {
+      animatePoints();
+    }, 700);
+  }
+}
 
 // show file name after selecting file
 $('#inputGroupFile01').on('change',function(){

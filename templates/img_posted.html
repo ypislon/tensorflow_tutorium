@@ -17,7 +17,7 @@
 
     {% if detected_objects|length == 1 %}
       {% for score, object in detected_objects %}
-        <p><kbd class="robot-text">Ich habe eine Sache auf dem Bild erkannt!</kbd></p>
+        <p><kbd class="robot-text">Ich habe eine Sache auf dem Bild erkannt! 🙌</kbd></p>
 
         <ul class="list-group">
           <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -33,7 +33,7 @@
 
       {% for score, object in detected_objects %}
         {% if(loop.index == 1) %}
-          <p><kbd class="robot-text">Ich habe {{detected_objects|length}} Dinge auf dem Bild erkannt!</p></kbd>
+          <p><kbd class="robot-text">Ich habe {{detected_objects|length}} Dinge auf dem Bild erkannt! 🙌</p></kbd>
 
           <ul class="list-group">
         {% endif %}
